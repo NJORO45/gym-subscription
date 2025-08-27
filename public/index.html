@@ -12,9 +12,9 @@
 </head>
 <body>
    <!--alert message-->
-   <div class="fixed z-50 left-1/2 -translate-x-1/2 bg-red flex bg-orange-300 mt-2 rounded-lg shadow-xl px-3 py-1 gap-1 animate-slide-down ">
+   <div id="alertMessage" class="fixed z-50 left-1/2 -translate-x-1/2 bg-red hidden bg-orange-300 mt-2 rounded-lg shadow-xl px-3 py-1 gap-1 ">
        <i class="ri-error-warning-fill text-xl"></i>
-     <p>alert message</p>
+       <p>alert message</p>
    </div>
    <!--navbar-->
    <nav class="fixed z-30  bg-gray-100 text-blue-700 h-14 sm:h-16 w-full shadow-md">
@@ -28,9 +28,25 @@
             <a href="#" class="relative py-2 text-orange-500  after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-orange-500">Home</a>
             <a href="#" class="relative py-2 before:absolute before:bottom-0 before:left-1/2 before:h-[2px] before:w-0 before:bg-blue-600 before:transition-all before:duration-300 hover:before:left-0 hover:before:w-full">Contact</a>
             <a href="#" class="relative py-2  before:absolute before:bottom-0 before:left-1/2 before:h-[2px] before:w-0 before:bg-blue-600 before:transition-all before:duration-300 hover:before:left-0 hover:before:w-full">About </a>
-            <a href="#" class="flex items-center  gap-2 font-semibold bg-orange-500 ml-1 sm:ml-4 px-2 py-1 sm:px-4 sm:py-2 shadow-md hover:shadow-lg rounded-md text-white hover:bg-orange-600 transition-all">
+            <a href="#" id="userLogin" class="flex  items-center  gap-2 font-semibold bg-orange-500 ml-1 sm:ml-4 px-2 py-1 sm:px-4 sm:py-2 shadow-md hover:shadow-lg rounded-md text-white hover:bg-orange-600 transition-all">
                 <i class="ri-login-circle-line text-lg"></i>
-                <div class=" hidden sm:block">Login</div>
+                <div  class=" hidden sm:block">Login</div>
+            </a>
+            <a href="#" id="userprofile" class="hidden relative ">
+               <div id="userProfileContainer"  class=" relative items-center  gap-2 font-semibold bg-orange-500 ml-1 sm:ml-4 px-2 py-1 sm:px-4 sm:py-2 shadow-md hover:shadow-lg rounded-md text-white hover:bg-orange-600 transition-all">
+                 <i class="ri-user-line"></i>
+                <i class="ri-arrow-down-s-line text-lg"></i>
+               </div>
+               <div  class=" absolute flex flex-col right-2 top-2 ">
+                <div class="block absolute shadow-xl bg-gray-100 w-6 h-6 right-[35px] top-12 -rotate-45"></div>
+                  <!-- Dropdown menu -->
+                <div id="profileDropdown" class=" hidden absolute   w-max h-max bg-gray-100 shadow-lg rounded-md overflow-hidden flex-col right-2 top-[49px]  text-left z-40">
+                    
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600">Profile</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600">Settings</a>
+                    <a href="#"id="logoutBtn" class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600">Logout</a>
+                </div>
+               </div>
             </a>
         </div>
     </div>
@@ -111,7 +127,7 @@
                 </ul>
             </div>
             <div class="text-center  my-6">
-                <a href="#" class=" bg-orange-500 text-gray-100 py-2 px-4 rounded-full hover:bg-orange-600 inline-block transform transiton duration-200 hover:-translate-y-1">Get Yearly (Best Value)</a>
+                <a href="php/payment.php" class=" bg-orange-500 text-gray-100 py-2 px-4 rounded-full hover:bg-orange-600 inline-block transform transiton duration-200 hover:-translate-y-1">Get Yearly (Best Value)</a>
             </div>
         </div>
     </div>
@@ -188,98 +204,112 @@
         <p class="mt-4 cursor-pointer text-blue-700">💡 Drop a suggestion anytime!</p>
     </div>
    </div>
-</body>
+
 <!--suggestion box pupup form-->
-<div class="hidden fixed z-40 inset-0 bg-black/50   justify-center">
+<div class="hidden fixed z-40 inset-0 bg-black/50   justify-center  h-full pb-2 overflow-y-auto">
     <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-64 mt-20 px-4 py-2">
         <div class="w-full flex justify-end">
-            <i class="ri-close-large-line inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+            <i id="cross" class="ri-close-large-line inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
         <h2 class="mb-2 font-semibold">💡 Suggestion Box</h2>
         <div class="flex flex-col space-y-6">
+            <input class="csrtfToken" type="text" value="" hidden >
             <textarea class="border rounded-lg p-2 outline-none resize-none" name="" id="" rows="4" placeholder="Write your suggestion here .."></textarea>
             <button class="bg-orange-400 px-2 py-2 rounded-full text-white ">Submit</button>
         </div>
     </div>
 </div>
 <!--register pupup form-->
-<div class="fixed z-40 inset-0 bg-black/50 hidden  justify-center">
+<div id="signupPopup" class="fixed z-40 inset-0 bg-black/50 hidden  justify-center h-full pb-2 overflow-y-auto">
     <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-fit mt-20 px-4 py-2">
         <div class="w-full flex justify-end">
-            <i class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+            <i id="cross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
         <h2 class="mb-2 font-semibold text-center text-2xl">Sign up</h2>
         <div class="space-y-2">
             <div class="flex flex-col w-full gap-4">
-                <label for="">Name</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <label for="">First Name</label>
+                <input id="Fname" type="text" placeholder="your First Name" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <p id="fNameError" class=" text-red-500 font-semibold"></p>
+            </div>
+            <div class="flex flex-col w-full gap-4">
+                <label for="">Last Name</label>
+                <input id="Lname" type="text" placeholder="your Last name" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <p id="lNameError" class=" text-red-500 font-semibold"></p>
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">Email</label>
-                <input type="email" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input id="signupemail" type="email" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <p id="signupEmailError" class=" text-red-500 font-semibold"></p>
+                <input id="signupcsrtToken" class="csrtfToken" type="text" value="" hidden >
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">Tel</label>
-                <input type="text" placeholder="your tel" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input id="tel" type="text" placeholder="your tel" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <p id="telError" class=" text-red-500 font-semibold"></p>
             </div>
              <div class="flex flex-col w-full gap-4">
                 <label for="">Password</label>
-                <input type="text" placeholder="your password" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input id="signupPassword" type="text" placeholder="your password" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <p id="signuppasswordError" class=" text-red-500 font-semibold"></p>
             </div>
              <div class="flex flex-col w-full gap-4">
-                <label for="">Confir Password</label>
-                <input type="text" placeholder="Confirm password" class="border-2 outline-none px-2 py-1 rounded-lg">
-                <p class="hidden text-red-500 font-semibold">No match</p>
+                <label for="">Confirm Password</label>
+                <input id="confirmPassword" type="text" placeholder="Confirm password" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <p id="passwordConfirmError" class=" text-red-500 font-semibold"></p>
             </div>
             <div>
-                <p class="text-gray-500">Are you a member? <a class="text-blue-700 cursor-pointer">login</a></p>
-                <p class="text-gray-500">Admin <a class="text-md text-blue-700 cursor-pointer">login</a></p>
+                <p class="text-gray-500">Are you a member? <a class="text-blue-700 cursor-pointer" id="loginLink">login</a></p>
+                <p class="text-gray-500">Admin <a class="text-md text-blue-700 cursor-pointer" id="adminLoginLink">login</a></p>
             </div>
         </div>
         <div class="flex flex-col py-2">
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Sign up</button>
+            <button id="signupBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Sign up</button>
         </div>
     </div>
 </div>
 <!--login pupup form-->
-<div class="fixed z-40 inset-0 bg-black/50 hidden  justify-center">
+<div id="loginPopup" class="fixed z-40 inset-0 bg-black/50 hidden  justify-center h-full overflow-y-auto pb-2">
     <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-fit mt-20 px-4 py-2">
         <div class="w-full flex justify-end">
-            <i class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+            <i id="cross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
         <h2 class="mb-2 font-semibold text-center text-2xl">Login</h2>
         <div class="space-y-2">
             <div class="flex flex-col w-full gap-4">
                 <label for="">Email</label>
-                <input type="text" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input type="email" placeholder="your email" id="loginEmail" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input id="logincsrtfToken" class="csrtfToken" type="text" value="" hidden >
+                <p id="loginEmailError" class="hidden text-red-500 font-semibold">No match</p>
             </div>
              <div class="flex flex-col w-full gap-4">
                 <label for="">Password</label>
-                <input type="text" placeholder="Confirm password" class="border-2 outline-none px-2 py-1 rounded-lg">
-                <p class="hidden text-red-500 font-semibold">No match</p>
+                <input type="password" placeholder="Your password" id="loginPassword" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <p id="loginPassError" class="hidden text-red-500 font-semibold">No match</p>
             </div>
             <div>
-                <p class="text-gray-500">Not a member? <a class="text-blue-700 cursor-pointer">sign up</a></p>
-                 <a class="text-blue-700 cursor-pointer underline">Forgot password</a>
-                <p class="text-gray-500">Admin <a class="text-md text-blue-700 cursor-pointer">login</a></p>
+                <p class="text-gray-500">Not a member? <a class="text-blue-700 cursor-pointer" id="signupLink">sign up</a></p>
+                 <a class="text-blue-700 cursor-pointer underline" id="resetPassword">Forgot password</a>
+                <p class="text-gray-500">Admin <a class="text-md text-blue-700 cursor-pointer" id="adminLoginLink">login</a></p>
             </div>
         </div>
         <div class="flex flex-col py-2">
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Login</button>
+            <button id="loginBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Login</button>
         </div>
     </div>
 </div>
 <!--admin pupup form-->
-<div class="fixed z-40 inset-0 bg-black/50 hidden  justify-center">
+<div id="adminLogin" class="fixed z-40 inset-0 bg-black/50 hidden  justify-center  h-full pb-2 overflow-y-auto">
     <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-fit mt-20 px-4 py-2">
         <div class="w-full flex justify-end">
-            <i class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+            <i id="cross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
         <h2 class="mb-2 font-semibold text-center text-2xl">Admin</h2>
         <div class="space-y-2">
             <div class="flex flex-col w-full gap-4">
                 <label for="">Email</label>
                 <input type="text" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input class="csrtfToken" type="text" value="" hidden >
             </div>
              <div class="flex flex-col w-full gap-4">
                 <label for="">Password</label>
@@ -287,9 +317,9 @@
                 <p class="hidden text-red-500 font-semibold">No match</p>
             </div>
             <div>
-                <p class="text-gray-500">Not a member? <a class="text-blue-700 cursor-pointer">sign up</a></p>
-                <p class="text-gray-500">Are you a member? <a class="text-blue-700 cursor-pointer">login</a></p>
-                 <a class="text-blue-700 cursor-pointer underline">Forgot password</a>
+                <p class="text-gray-500">Not a member? <a class="text-blue-700 cursor-pointer" id="signupLink">sign up</a></p>
+                <p class="text-gray-500">Are you a member? <a class="text-blue-700 cursor-pointer" id="loginLink">login</a></p>
+                 <a class="text-blue-700 cursor-pointer underline" id="adminForgetPassword">Forgot password</a>
             </div>
         </div>
         <div class="flex flex-col py-2">
@@ -297,4 +327,54 @@
         </div>
     </div>
 </div>
+<!--admin forget password pupup form-->
+<div id="adminresetPassword" class="fixed z-40 inset-0 bg-black/50 hidden  justify-center  h-full pb-2 overflow-y-auto">
+    <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-fit mt-20 px-4 py-2">
+        <div class="w-full flex justify-end">
+            <i id="cross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+        </div>
+        <h2 class="mb-2 font-semibold text-center text-2xl">Admin</h2>
+        <div class="space-y-2">
+            <div class="flex flex-col w-full gap-4">
+                <label for="">Email</label>
+                <input type="text" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input class="csrtfToken" type="text" value="" hidden >
+            </div>
+            <div>
+                <p class="text-gray-500">A reset link will be sent to the above email if a match is found</p>
+            </div>
+        </div>
+        <div class="flex flex-col py-2">
+            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Reset password</button>
+        </div>
+    </div>
+</div>
+<!--user forget password pupup form-->
+<div id="userresetPassword" class="fixed z-40 inset-0 bg-black/50 hidden  justify-center  h-full pb-2 overflow-y-auto">
+    <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-fit mt-20 px-4 py-2">
+        <div class="w-full flex justify-end">
+            <i id="cross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+        </div>
+        <h2 class="mb-2 font-semibold text-center text-2xl">User</h2>
+        <div class="space-y-2">
+            <div class="flex flex-col w-full gap-4">
+                <label for="">Email</label>
+                <input type="text" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input class="csrtfToken" type="text" value="" hidden >
+            </div>
+            <div>
+                <p class="text-gray-500">A reset link will be sent to the above email if a match is found</p>
+            </div>
+        </div>
+        <div class="flex flex-col py-2">
+            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Reset password</button>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/session_status.js"></script>
+<script src="js/main.js"></script>
+<script src="js/csrf.js"></script>
+<script src="js/autho.js"></script>
+<script src="js/logout.js"></script>
 </html>
