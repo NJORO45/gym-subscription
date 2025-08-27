@@ -1,7 +1,7 @@
 addEventListener("DOMContentLoaded",()=>{
     const csrtfToken = document.querySelectorAll(".csrtfToken");
     async function csrtfTokenFunction() {
-        const response = await fetch('php/csrfTokenGeneratormain.php',{
+        const response = await fetch('csrfTokenGeneratormain.php',{
             method:"GET",
             headers:{"Accept":"application/json"}     
         });

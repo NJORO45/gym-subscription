@@ -1,7 +1,7 @@
 async function loginStatus() {
     const userLogin = document.querySelector("#userLogin");
     const userprofile = document.querySelector("#userprofile");
-    const response = await fetch('php/session_status.php',{
+    const response = await fetch('session_statusmain.php',{
         method:"GET",
         headers:{"Accept":"application/json"}  
     });

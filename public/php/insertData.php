@@ -73,4 +73,20 @@ if($stmt->execute()){
     echo json_encode(["success" => false, "message" => "Database error"]);
 }
 }
+if(isset($data['profileUpdate'])&& $data['profileUpdate']==true){
+    $unid =  $_SESSION['user_id'];
+$Fname = sanitize($data['first_name']);
+$Lname = sanitize($data['last_name']);
+$email = sanitize($data['email']);
+$tel = sanitize($data['tel']);
+    $insertData = $con->prepare("UPDATE `users` SET 
+    `first_name`= ?,`last_name`= ?,`email`= ?,`tel`= ?
+     WHERE `unid`= ?");
+    $insertData->bind_param("sssss",$Fname,$Lname,$email,$tel,$unid,);
+    if($insertData->execute()){
+        echo json_encode(["success" => true, "message" => "Profile updated"]); 
+    }else{
+        echo json_encode(["success" => false, "message" => "error accured when updating profile"]); 
+    }
+}
 ?>
