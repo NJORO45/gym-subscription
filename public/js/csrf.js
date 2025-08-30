@@ -6,7 +6,7 @@ addEventListener("DOMContentLoaded",()=>{
             headers:{"Accept":"application/json"}     
         });
         const text = await response.text();
-        console.log(text);
+        //console.log(text);
         try{
             const results = JSON.parse(text);
             if(results){
@@ -18,5 +18,7 @@ addEventListener("DOMContentLoaded",()=>{
             console.log(" json error:" + jsonErr);
         }
     }
-    csrtfTokenFunction();
+    setTimeout(()=>{
+        csrtfTokenFunction();
+    },500);
 });

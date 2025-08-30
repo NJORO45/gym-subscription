@@ -76,7 +76,7 @@ addEventListener("DOMContentLoaded",()=>{
             e.currentTarget.parentElement.parentElement.parentElement.classList.add("hidden");
         });
     });
-console.log(userprofile);
+
     profileContainer .addEventListener("click",(e)=>{
         e.preventDefault();
         profileDropdown.classList.toggle("hidden");

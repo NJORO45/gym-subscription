@@ -110,7 +110,7 @@ addEventListener("DOMContentLoaded",()=>{
         }
     });
     loginBtn.addEventListener("click",()=>{
-        console.log("loginclicked",loginPassword.value );
+        const signupToken = signupcsrtToken.value;
         if(emailStatus && loginPassword.value!=''){
             console.log("loginclicked pased");
             async function loginFunction() {
@@ -118,7 +118,7 @@ addEventListener("DOMContentLoaded",()=>{
                     loginStatus:true,
                     loginEmail:sanitize(loginEmail.value),
                     loginPassword:sanitize(loginPassword.value),
-                    csrtfToken:sanitize(logincsrtfToken.value)
+                    csrtfToken:sanitize(signupToken)
                 };
              const response = await fetch('php/insertData.php',{
                 method:"POST",
@@ -176,7 +176,6 @@ addEventListener("DOMContentLoaded",()=>{
           loginFunction();
         }else{
             loginBtn.disabled=false;
-            console.log(signupcsrtToken.value);
             alertMessage.classList.remove("hidden");
             alertMessage.classList.add("flex","animate-slide-down");
             p.textContent="Fill the form to login"
@@ -255,6 +254,7 @@ addEventListener("DOMContentLoaded",()=>{
     });
 
         signupBtn.addEventListener("click",(e)=>{
+            const signupToken = signupcsrtToken.value;
         if(FnameStatus && signupemailStatus && LnameStatus && telStatus && passwordStatus){
            signupBtn.disabled=true;
             async function signupFunction() {
@@ -265,7 +265,7 @@ addEventListener("DOMContentLoaded",()=>{
                     signupemail:sanitize(signupemail.value),
                     tel:sanitize(tel.value),
                     confirmPassword:sanitize(confirmPassword.value),
-                    csrtfToken:sanitize(signupcsrtToken.value)
+                    csrtfToken:sanitize(signupToken.value)
                 };
              const response = await fetch('php/insertData.php',{
                 method:"POST",
