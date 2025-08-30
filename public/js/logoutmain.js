@@ -39,7 +39,7 @@ async function logoutStatusFunction() {
                     setTimeout(()=>{
                             const csrtfToken = document.querySelectorAll(".csrtfToken");
                             async function csrtfTokenFunction() {
-                                const response = await fetch('php/csrfTokenGenerator.php',{
+                                const response = await fetch('csrfTokenGenerator.php',{
                                     method:"GET",
                                     headers:{"Accept":"application/json"}     
                                 });

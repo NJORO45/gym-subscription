@@ -8,7 +8,7 @@ async function loginStatus() {
     const text = await response.text();
     try{
         const results = JSON.parse(text);
-        console.log(results)
+        //console.log(results)
         if(results.loggedIn){
             //session set for usr
            userLogin.classList.add("hidden");

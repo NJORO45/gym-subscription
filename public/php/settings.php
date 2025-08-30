@@ -53,8 +53,8 @@ if (isset($_SESSION['user_id'])) {
                   <!-- Dropdown menu -->
                 <div id="profileDropdown" class=" hidden absolute   w-max h-max bg-gray-100 shadow-lg rounded-md overflow-hidden flex-col right-2 top-[49px]  text-left z-40">
                     
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600">Profile</a>
-                    <a href="settings.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600">Settings</a>
+                    <a href="profile.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600">Profile</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600">Settings</a>
                     <a href="#"id="logoutBtn" class="block px-4 py-2 hover:bg-gray-200 hover:text-orange-600">Logout</a>
                 </div>
                </div>
@@ -63,136 +63,54 @@ if (isset($_SESSION['user_id'])) {
     </div>
    </nav>
    <!--firstsection-->
-   <div class="pt-16 flex flex-col place-items-center px-4 space-y-2 border-b-2 pb-4">
-    <div class="flex flex-col space-y-2 shadow-lg rounded-lg p-2">
+   <div class="pt-16 grid grid-cols-1 sm:grid-cols-1 place-items-center px-4 space-y-2 border-b-2 pb-4">
+    <div class=" flex flex-col space-y-2 shadow-lg rounded-lg p-2">
         <!--personal details-->
-        <h2 class="text-sm font-bold mb-2">Personal Info</h2>
-        <input id="csrtftokenProfile" class="csrtfToken" type="text" value="" hidden >
-        <div class="flex flex-col sm:flex-row gap-2">
-            <label for=""> First name</label>
-            <input id="Fname" class="border-2 rounded-lg outline-none px-2 py-1" type="text">
+        <h2 class="text-lg text-center font-bold mb-2">Account Security</h2>
+        <input id="csrtftokenpaswordReset" class="csrtfToken" type="text" value="" hidden >
+        <div class="flex flex-col sm:flex-row gap-2 justify-between">
+            <label for="">Old password</label>
+            <input id="oldPassword" class="border-2 rounded-lg outline-none px-2 py-1" type="password">
+            <p id="oldpassError" class="text-red-500 text-xs font-semibold"></p>
         </div>
-        <div class="flex flex-col sm:flex-row gap-2">
-            <label for=""> Last name</label>
-            <input id="Lname" class="border-2 rounded-lg outline-none px-2 py-1" type="text">
+        <div class="flex flex-col sm:flex-row gap-2 justify-between">
+            <label for="">New password</label>
+            <input id="newPassword" class="border-2 rounded-lg outline-none px-2 py-1" type="password">
+            <p id="newpassError" class="text-red-500 text-xs font-semibold"></p>
         </div>
-        <div class="flex flex-col sm:flex-row gap-2">
-            <label for="">Tel</label>
-            <input id="tel" class="border-2 rounded-lg outline-none px-2 py-1" type="text">
-        </div>
-        <div class="flex flex-col sm:flex-row gap-2">
-            <label for="">Email</label>
-            <input id="email" class="border-2 rounded-lg outline-none px-2 py-1" type="text">
+        <div class="flex flex-col sm:flex-row gap-2 justify-between">
+            <label for="">Confirm New Password</label>
+            <input id="ConfirmNewPassword" class=" border-2 rounded-lg outline-none px-2 py-1" type="password">
+            <p id="confirmpassError" class="text-red-500 text-xs font-semibold"></p>
         </div>
         <div class="flex justify-center">
-            <button id="saveBtn" class="bg-orange-400 px-2 py-1 text-white rounded-full text-sm hover:bg-orange-600">Save changes</button>
+            <button id="changePasswordBtn" class="bg-orange-400 px-2 py-1 text-white rounded-full text-sm hover:bg-orange-600">Change Password</button>
         </div>
     </div>
     <div class="flex flex-col space-y-2 shadow-lg rounded-lg p-2">
-        <h2 class="text-sm font-bold">Other Details</h2>
-        <div class="flex flex-col gap-2">
-            <label for="" class="text-gray-900">📅 Joined Date</label>
-            <p id="joinDate" class="text-gray-600 text-sm">2025/08/16 14:40:09</p>
-        </div>
+        <h2 class="text-lg font-bold text-center">Preferences</h2>
         <div>
-            <label for="" class="text-gray-900">💳 Subscription</label>
-            <p class="text-gray-600 text-sm">N/A</p>
-
-        </div>
-        <div>
-            <label for="" class="text-gray-900">Subscription Status</label>
-            <p class="space-y-2">
-                <p class="text-gray-600  text-sm ">Next payment Due</p>
-                <span class="text-gray-600  text-sm ">N/A</span>
+            <h1>Notification Preferences (SMS/email reminders)</h1>
+            <div>
+                <input id="csrtftokenpreference" class="csrtfToken" type="text" value="" hidden >
+                <div>
+                    <input type="radio" id="Selectedsms" name="notification" value="sms">
+                    <label for="SMS" >SMS</label>
+                </div>
+                <div>
+                    <input type="radio" id="Selectedemail" name="notification" value="email">
+                    <label for="Email" >Email</label>
+                </div>
             </div>
+            <div class="flex justify-center">
+            <button id="saveOptionBtn" class="bg-orange-400 px-2 py-1 text-white rounded-full text-sm hover:bg-orange-600">Save option</button>
+        </div>
+        </div>
     </div>
-    <div class="w-full flex mx-auto flex-col">
-        <p class="text-sm font-bold text-center">View payment history</p>
-        <div class="w-full overflow-auto shadow-xl rounded-lg max-h-[300px] place-items-center">
-            <table class="w-full">
-                <thead>
-                    <tr>
-                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky left-0 top-0 z-[25] ">Receipt no.</th>
-                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky  top-0 z-20">amount</th>
-                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky top-0 z-20">Date</th>
-                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky  top-0 z-20">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2 ">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="flex flex-col space-y-2 shadow-lg rounded-lg p-2">
+        <h2 class="text-lg text-center font-bold">Danger Zone</h2>
+        <div class="text-red-500 p-4 hover:text-red-800">
+           <button id="deleteAccountBtn">Deactivate/Delete Account</button>
         </div>
     </div>
     </div>
@@ -386,6 +304,7 @@ if (isset($_SESSION['user_id'])) {
                 <input class="csrtfToken" type="text" value="" hidden >
             </div>
             <div>
+                <input id="deactivatecsrtToken" class="csrtfToken" type="text" value="" hidden >
                 <p class="text-gray-500">A reset link will be sent to the above email if a match is found</p>
             </div>
         </div>
@@ -394,10 +313,26 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
 </div>
+<div id="deactivateAccount" class="fixed z-40 inset-0 bg-black/50 hidden  justify-center  h-full pb-2 overflow-y-auto">
+    <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-fit mt-20 px-4 py-2">
+        <div class="w-full flex justify-end">
+            <i id="cross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+        </div>
+        <h2 class="mb-2 font-semibold text-center text-lg">Deactivate/Delete Account</h2>
+        <div class="space-y-2">
+            <div>
+                <p class="text-red-500 text-center py-4">Are you sure you want to delete/deactivate your account</p>
+            </div>
+        </div>
+        <div class="flex flex-col py-2">
+            <button id="deactivateTrue" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Yes</button>
+        </div>
+    </div>
+</div>
 </body>
 <script src="../js/session_statusmain.js"></script>
 <script src="../js/mainmain.js"></script>
 <script src="../js/csrfmain.js"></script>
-<script src="../js/profile.js"></script> 
 <script src="../js/logoutmain.js"></script>
+<script src="../js/settings.js"></script>
 </html>

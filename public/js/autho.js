@@ -129,7 +129,7 @@ addEventListener("DOMContentLoaded",()=>{
              console.log(text);
              try{
                 const result = JSON.parse(text);
-                console.log(result);
+               // console.log(result);
                 if(result.success){
                     //login success
                     loginStatusFunction();
