@@ -13,9 +13,37 @@ addEventListener("DOMContentLoaded",()=>{
     const adminresetPassword= document.querySelector("#adminresetPassword");
     const userresetPassword= document.querySelector("#userresetPassword");
 
-    const adminForgetPassword= document.querySelector("#adminForgetPassword");
+    const adminForgetPassword= document.querySelector("#adminForgetPassword"); 
     const resetPassword= document.querySelector("#resetPassword");
+    const backToTopBtn= document.querySelector("#backToTopBtn");
+  // Select all nav links
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault(); // stop default jump
+      const targetId = this.getAttribute('href'); // e.g. "#about"
+      const targetSection = document.querySelector(targetId);
 
+      if (targetSection) {
+        targetSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    });
+  });
+    window.addEventListener("scroll",()=>{
+        if(window.scrollY > 200){
+            backToTopBtn.classList.remove("hidden");
+        }else{
+             backToTopBtn.classList.add("hidden");
+        }
+    });
+    backToTopBtn.addEventListener("click",()=>{
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+    });
     const cross= document.querySelectorAll("#cross");
     signupLink.forEach(loginL => {
         loginL.addEventListener("click",()=>{

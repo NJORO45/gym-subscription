@@ -15,8 +15,22 @@ addEventListener("DOMContentLoaded",()=>{
 
     const adminForgetPassword= document.querySelector("#adminForgetPassword");
     const resetPassword= document.querySelector("#resetPassword");
-
+    const backToTopBtn= document.querySelector("#backToTopBtn");
     const cross= document.querySelectorAll("#cross");
+
+        window.addEventListener("scroll",()=>{
+        if(window.scrollY > 200){
+            backToTopBtn.classList.remove("hidden");
+        }else{
+             backToTopBtn.classList.add("hidden");
+        }
+    });
+    backToTopBtn.addEventListener("click",()=>{
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+    });
     signupLink.forEach(loginL => {
         loginL.addEventListener("click",()=>{
             signupPopup.classList.remove("hidden");

@@ -21,7 +21,7 @@ if (isset($_SESSION['user_id'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css"  />
 </head>
-<body>
+<body id="flex flex-col">
    <!--alert message-->
    <div id="alertMessage" class="fixed z-50 left-1/2 -translate-x-1/2 bg-red hidden bg-orange-300 mt-2 rounded-lg shadow-xl px-3 py-1 gap-1 ">
        <i class="ri-error-warning-fill text-xl"></i>
@@ -63,7 +63,7 @@ if (isset($_SESSION['user_id'])) {
     </div>
    </nav>
    <!--firstsection-->
-   <div class="pt-16 flex flex-col place-items-center px-4 space-y-2 border-b-2 pb-4">
+   <div class="flex-grow pt-16 flex flex-col place-items-center px-4 space-y-2 border-b-2 pb-4">
     <div class="flex flex-col space-y-2 shadow-lg rounded-lg p-2">
         <!--personal details-->
         <h2 class="text-sm font-bold mb-2">Personal Info</h2>
@@ -197,7 +197,10 @@ if (isset($_SESSION['user_id'])) {
     </div>
     </div>
     
-   
+   <!--back to top-->
+<div id="backToTopBtn" class="hidden fixed bottom-6 right-6 bg-orange-400 shadow-xl rounded-full z-30  w-8 h-8 flex justify-center items-center cursor-pointer hover:bg-orange-600 transition duration-100 ease-in-out">
+    <i class="ri-arrow-up-double-fill text-xl text-white"></i>
+</div>
    <!--footer-->  
    <div class="grid grid-cols-1  sm:grid-cols-3 px-6 py-4 gap-2">
     <div class="justify-items-center">
