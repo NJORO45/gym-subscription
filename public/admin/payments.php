@@ -30,12 +30,12 @@
     </div>
    </nav>
 <!--sidebar-->
-<div class="fixed z-40 h-[calc(100vh-3.5rem)] w-full sm:w-64 overflow-y-auto  bg-gray-100 top-14 sm:top-16 text-center ">
+<div class="hidden z-40 h-[calc(100vh-3.5rem)] w-full sm:w-64 overflow-y-auto  bg-gray-100 top-14 sm:top-16 text-center ">
     <ul class="flex flex-col gap-2 ">
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="admin.php">Dashboard</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="members.php">Members</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Subscriptions/Plans</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="attendanceList.php">Payments</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="subscriptionTarifs.php">Subscriptions/Plans</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Payments</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="trainerList.php">Trainers</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="attendanceList.php">Attendance</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="blacklist.php">Blacklist</a></li>
@@ -50,8 +50,16 @@
     <!--recent member list-->
     <div class="w-full mx-auto pt-0">
         <div class="flex justify-between">
-            <h2 class=" text-gray-600 font-bold w-full text-center">Blacklist </h2>
-            
+            <h2 class=" text-gray-600 font-bold w-full text-start">Payments List</h2>
+            <div class="mb-2 ml-2  text-center">
+                <label for="">Filter</label>
+                <select>
+                    <option value="" default>--select--</option>
+                    <option value="" >Due</option>
+                    <option value="" >payed</option>
+                </select>
+            </div>
+            <i class="ri-add-fill text-orange-400 text-2xl font-bold transform transition hover:scale-105 hover:-translate-y-1 cursor-pointer hover:text-orange-600"></i>
         </div>
         <div class="w-full overflow-auto   rounded-lg shadow-xl ">
             <table class="w-full">
@@ -65,7 +73,6 @@
                         <th class="bg-gray-100 p-2 text-gray-500">Email</th>
                         <th class="bg-gray-100 p-2 text-gray-500">Id No.</th>
                         <th class="bg-gray-100 p-2 text-gray-500">Level</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,9 +85,6 @@
                         <td class="bg-gray-50 p-2 text-sm text-gray-900">@gmail.com</td>
                         <td class="bg-gray-50 p-2 text-sm text-gray-900">3585579</td>
                         <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">black belt</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 text-center flex flex-row gap-2">
-                            <input class="bg-orange-400 text-white  shadow-lg rounded-full px-2 py-1 text-xs hover:bg-orange-600 cursor-pointer" type="button" name="this" value="whitelist">
-                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -93,11 +97,15 @@
         <div class="w-full flex justify-end">
             <i class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
-        <h2 class="mb-2 font-semibold text-center text-2xl">Add to Whitelist</h2>
+        <h2 class="mb-2 font-semibold text-center text-2xl">Add to Payments</h2>
         <div class="space-y-2">
             <div class="flex flex-col w-full gap-4">
-                <label for="">Member number</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+                <label for="">Trainer number</label>
+                <select name="" id="">
+                    <option value="--select--" default>--select--</option>
+                    <option value="--select--" >34567</option>
+                    <option value="--select--" >4573</option>
+                </select>
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">First name</label>
@@ -111,13 +119,9 @@
                 <label for="">Email</label>
                 <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
             </div>
-             <div class="flex flex-col w-full gap-4">
-                <label for="">Reason</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
-            </div>
         </div>
         <div class="flex flex-col py-2">
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Add to whiteList</button>
+            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Add payments</button>
         </div>
     </div>
 </div>

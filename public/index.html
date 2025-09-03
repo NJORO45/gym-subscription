@@ -311,13 +311,14 @@
         <div class="space-y-2">
             <div class="flex flex-col w-full gap-4">
                 <label for="">Email</label>
-                <input type="text" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
-                <input class="csrtfToken" type="text" value="" hidden >
+                <input id="adminEmail" type="text" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input id="adminCsrttoken" class="csrtfToken" type="text" value="" hidden >
+                <p id="adminEmailError" class="hidden text-red-500 font-semibold">No match</p>
             </div>
              <div class="flex flex-col w-full gap-4">
                 <label for="">Password</label>
-                <input type="text" placeholder="Confirm password" class="border-2 outline-none px-2 py-1 rounded-lg">
-                <p class="hidden text-red-500 font-semibold">No match</p>
+                <input id="adminPassword" type="text" placeholder="Admin password" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <p id="adminPassError" class="hidden text-red-500 font-semibold">No match</p>
             </div>
             <div>
                 <p class="text-gray-500">Not a member? <a class="text-blue-700 cursor-pointer" id="signupLink">sign up</a></p>
@@ -326,7 +327,7 @@
             </div>
         </div>
         <div class="flex flex-col py-2">
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Login</button>
+            <button id="adminLoginBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Login</button>
         </div>
     </div>
 </div>

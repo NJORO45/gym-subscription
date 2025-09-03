@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+if (isset($_SESSION['admin_user_id'])) {
+   
+} else {
+    header("Location:../index.html");
+    exit;
+}
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +25,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css"  />
 </head>
 <body>
-   <!--alert message-->
-   <div class="fixed z-50 left-1/2 -translate-x-1/2 bg-red flex bg-orange-300 mt-2 rounded-lg shadow-xl px-3 py-1 gap-1 animate-slide-down ">
+     <!--alert message-->
+   <div id="alertMessage" class="fixed z-50 left-1/2 -translate-x-1/2 bg-red hidden bg-orange-300 mt-2 rounded-lg shadow-xl px-3 py-1 gap-1 ">
        <i class="ri-error-warning-fill text-xl"></i>
-     <p>alert message</p>
+       <p>alert message</p>
    </div>
    <!--navbar-->
    <nav class="fixed z-30  bg-gray-100 text-blue-700 h-14 sm:h-16 w-full shadow-md">
@@ -24,26 +38,27 @@
             <a href="#">Smart gym Admin</a>
         </div>
         <!--humbarger-->
-        <div>
-            <i class="ri-menu-3-line text-orange-400 text-3xl cursor-pointer"></i>
+        <div  class="cursor-pointer">
+            <i id="humbarger" class=" w-full ri-menu-3-line text-orange-400 text-3xl"></i>
         </div>
     </div>
    </nav>
 <!--sidebar-->
-<div class="fixed z-40 h-[calc(100vh-3.5rem)] w-full sm:w-64 overflow-y-auto  bg-gray-100 top-14 sm:top-16 text-center ">
+<div id="humbargerMenu" class="fixed z-40 h-[calc(100vh-3.5rem)] w-full sm:w-64 -left-full sm:-left-64 overflow-y-auto  bg-gray-100 top-14 sm:top-16 text-center trasnsition-all duration-500 ease-in-out">
     <ul class="flex flex-col gap-2 ">
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Dashboard</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Members</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Subscriptions/Plans</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="members.php">Members</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="subscriptionTarifs.php">Subscriptions/Plans</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Payments</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Trainers</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Attendance</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Reports</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Settings</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Logout</a></li>
+        <li id="adminlogout" class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Logout</a></li>
     </ul>
 </div>
 <!--main container-->
+<input id="adminCsrfToken" value="<?php echo $_SESSION['csrf_token'];?>" hidden>
 <div class="flex flex-col gap-4 pt-20 sm:pt-20  mx-4 pb-6">
     <!--cards-->
     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 place-items-center mt-8">
@@ -52,42 +67,42 @@
                 <i class="ri-group-fill text-2xl"></i>
             </div>
             <h2 class="text-sm text-gray-600 font-semibold">Active members</h2>
-            <span class="text-2xl font-bold text-gray-800">150</span>
+            <span id="activeMembers" class="text-2xl font-bold text-gray-800">0</span>
         </div>
         <div class="w-full bg-white flex flex-col items-center shadow-lg rounded-2xl p-6 transition transform hover:scale-105">
             <div class="w-12 h-12 bg-blue-100 text-blue-500 flex items-center justify-center rounded-full mb-3">
                 <i class="ri-price-tag-3-fill text-2xl"></i>
             </div>
             <h2 class="text-gray-600 text-sm font-semibold">Subscriptions</h2>
-            <span class="text-2xl font-bold text-gray-800">120</span>
+            <span id="subscriptions" class="text-2xl font-bold text-gray-800">0</span>
         </div>
         <div class="w-full flex flex-col items-center shadow-lg rounded-2xl p-6 transition transform hover:scale-105">
             <div class="w-12 h-12 bg-blue-100 text-blue-500 rounded-full mb-3 flex justify-center items-center">
                 <i class="ri-money-dollar-circle-fill text-2xl"></i>
             </div>
             <h2 class="text-gray-600 font-semibold text-sm">Monthly revenue</h2>
-            <span class="text-gray-800 font-bold text-2xl">KES 15,000</span>
+            <div id="monthlyRevenue" class="text-gray-800 font-bold text-2xl">KES <span>00</span></div>
         </div>
         <div class="w-full flex flex-col rounded-2xl shadow-lg p-6 items-center transform transition hover:scale-105">
             <div class="w-12 h-12 flex justify-center items-center bg-blue-100 text-blue-500 mb-3 rounded-full">
                 <i class="ri-user-star-fill text-2xl"></i>
             </div>
             <h2 class="text-gray-600 text-sm font-semibold">Trainers</h2>
-            <span class="text-gray-800 font-bold text-2xl">8</span>
+            <span id="trainers" class="text-gray-800 font-bold text-2xl">0</span>
         </div>
         <div class="w-full flex flex-col rounded-2xl shadow-lg p-6 items-center transform transition hover:scale-105">
             <div class="w-12 h-12 flex justify-center items-center bg-blue-100 text-blue-500 mb-3 rounded-full">
                 <i class="ri-timer-fill text-2xl"></i>
             </div>
             <h2 class="text-gray-600 text-sm font-semibold">Expiring Soon</h2>
-            <span class="text-gray-800 font-bold text-2xl">8</span>
+            <span id="expiringPlans" class="text-gray-800 font-bold text-2xl">0</span>
         </div>
         <div class="w-full flex flex-col rounded-2xl shadow-lg p-6 items-center transform transition hover:scale-105">
             <div class="w-12 h-12 flex justify-center items-center bg-blue-100 text-blue-500 mb-3 rounded-full">
                 <i class="ri-calendar-check-fill text-2xl"></i>
             </div>
             <h2 class="text-gray-600 text-sm font-semibold">Atendance Today</h2>
-            <span class="text-gray-800 font-bold text-2xl">8</span>
+            <span id="attendanceData" class="text-gray-800 font-bold text-2xl">0</span>
         </div>
     </div>
    
@@ -98,25 +113,22 @@
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th class="bg-gray-100 p-2 text-gray-500">No.</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Member</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Package</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Date</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Date</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Date</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Date</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Date</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Date</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap text-left">No.</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap text-left">first name</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap text-left">last name</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap text-left">email</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap text-left">tel</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap text-left">Date enrolled</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">1</td>
+                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">1</td>
                         <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">Samuel Joe</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">free trial</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">2025/08/25</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">2025/08/25</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">2025/08/25</td>
+                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">free trial</td>
+                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">2025/08/25</td>
+                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">2025/08/25</td>
+                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">2025/08/25</td>
                         <td class="bg-gray-50 p-2 text-sm text-gray-900">2025/08/25</td>
                         <td class="bg-gray-50 p-2 text-sm text-gray-900">2025/08/25</td>
                     </tr>
@@ -234,4 +246,6 @@
     </div>
 </div>
 </body>
+<script src="main.js"></script>
+<script src="fetch.js"></script>
 </html>
