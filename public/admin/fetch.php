@@ -62,4 +62,80 @@ if(isset($data['recentMembersData']) && $data['recentMembersData']){
         echo json_encode(["success"=>false,"active_members"=>"erroe"]);
     }
 }
+if(isset($data['tariffData']) && $data['tariffData']){
+    $stmt = $con->prepare("SELECT * FROM plans");
+    $arrayData=array();
+    if($stmt->execute()){
+        $results = $stmt->get_result();
+       while($data = $results->fetch_assoc()){
+        $arrayData[]=$data;
+        
+       }
+       echo json_encode(["success"=>true,"tariffs"=>$arrayData]);
+    }else{
+        echo json_encode(["success"=>false,"active_members"=>"erroe"]);
+    }
+}
+
+if(isset($data['addplanStatus'])&& $data['addplanStatus']==true){
+$DurationOption = sanitize($data['DurationOption']);
+$planeName = sanitize($data['planeName']);
+$amount = sanitize($data['amount']);
+$durationValue = sanitize($data['durationValue']);
+$discountValue = sanitize($data['discountValue']);
+$unid = random_num(5);
+$stmt = $con->prepare("SELECT * FROM plans WHERE `name` = ? LIMIT 1");
+$stmt->bind_param("s",$planeName);
+if($stmt->execute()){
+    $results = $stmt->get_result();
+    $user=$results->fetch_assoc();
+    if(!$user){
+        
+        $insertData = $con->prepare("INSERT INTO plans (`unid`, `name`, `duration_value`, `duration_type`, `tariff`,`discount`)VALUES(?,?,?,?,?,?)");
+        $insertData->bind_param("ssssss",$unid,$planeName,$durationValue,$DurationOption,$amount,$discountValue);
+        if($insertData->execute()){
+            echo json_encode(["success" => true, "message" => "plan added succesfully"]); 
+        }else{
+            echo json_encode(["success" => false, "message" => "error accured when adding plan"]); 
+        }
+    }else{
+        echo json_encode(["success" => false, "message" => "Similar plan found"]);
+        exit;
+        
+    }
+}else{
+    echo json_encode(["success" => false, "message" => "Database error"]);
+}
+}
+if(isset($data['editPlanStatus'])&& $data['editPlanStatus']==true){
+$DurationOption = sanitize($data['editDurationOption']);
+$planeName = sanitize($data['editplaneName']);
+$amount = sanitize($data['editamount']);
+$durationValue = sanitize($data['editdurationValue']);
+$discountValue = sanitize($data['editdiscountValue']);
+$unid = sanitize($data['unid']);
+$stmt = $con->prepare("SELECT * FROM plans WHERE `unid` = ? LIMIT 1");
+$stmt->bind_param("s",$unid);
+if($stmt->execute()){
+    $results = $stmt->get_result();
+    $user=$results->fetch_assoc();
+    if(!$user){
+        
+        
+        echo json_encode(["success" => false, "message" => "Plan was not found"]);
+        exit;
+    }else{
+        $insertData = $con->prepare("UPDATE `plans` SET `name`=?,`duration_value`=?,`duration_type`=?,`tariff`=?,`discount`=? WHERE unid =?");
+        $insertData->bind_param("ssssss",$planeName,$durationValue,$DurationOption,$amount,$discountValue,$unid);
+        if($insertData->execute()){
+            echo json_encode(["success" => true, "message" => "plan updated succesfully"]); 
+        }else{
+            echo json_encode(["success" => false, "message" => "error accured when updating plan"]); 
+        }
+        
+    }
+}else{
+    echo json_encode(["success" => false, "message" => "Database error"]);
+}
+}
 ?>
