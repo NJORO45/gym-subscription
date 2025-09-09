@@ -193,12 +193,11 @@ addEventListener("DOMContentLoaded",()=>{
     });
     editplanBtn.addEventListener("click",()=>{
         //updated data 
-        console.log(editPlan);
             const updatedData = {
                 unid:sanitize(editplanBtn.value),
                 editplaneName:sanitize(editplaneName.value),
                 editDurationOption:sanitize(editDurationOption.value),
-                editdiscountValue:sanitize(editdiscountValue.value),
+                editdiscountValue:sanitize(editdiscountValue.innerHTML),
                 editdurationValue:sanitize(editdurationValue.value),
                 editamount:sanitize(editamount.value)
             };
@@ -206,6 +205,8 @@ addEventListener("DOMContentLoaded",()=>{
              const hasChanges = Object.keys(originalData).some(
                 key => originalData[key] !== updatedData[key]
             );
+
+            console.log(originalData,updatedData);
             if(hasChanges){
                 async function addPlanFunction() {
                     updatedData.adminCsrfToken = sanitize(adminCsrfToken.value);

@@ -49,9 +49,10 @@ if (empty($_SESSION['csrf_token'])) {
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Dashboard</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="members.php">Members</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="subscriptionTarifs.php">Subscriptions/Plans</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Payments</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Trainers</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Attendance</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="payments.php">Payments</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="blacklist.php">Blacklist</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="trainerList.php">Trainers</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="attendanceList.php">Attendance</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Reports</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Settings</a></li>
         <li id="adminlogout" class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Logout</a></li>
@@ -123,14 +124,7 @@ if (empty($_SESSION['csrf_token'])) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">1</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">Samuel Joe</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">free trial</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">2025/08/25</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">2025/08/25</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">2025/08/25</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">2025/08/25</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">2025/08/25</td>
+                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap text-center">fetching data..</td>
                     </tr>
                 </tbody>
             </table>

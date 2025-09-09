@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+if (isset($_SESSION['admin_user_id'])) {
+   
+} else {
+    header("Location:../index.html");
+    exit;
+}
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +26,9 @@
 </head>
 <body>
    <!--alert message-->
-   <div class="fixed z-50 left-1/2 -translate-x-1/2 bg-red flex bg-orange-300 mt-2 rounded-lg shadow-xl px-3 py-1 gap-1 animate-slide-down ">
+   <div id="alertMessage" class="fixed z-50 left-1/2 -translate-x-1/2 bg-red hidden bg-orange-300 mt-2 rounded-lg shadow-xl px-3 py-1 gap-1 ">
        <i class="ri-error-warning-fill text-xl"></i>
-     <p>alert message</p>
+       <p>alert message</p>
    </div>
    <!--navbar-->
    <nav class="fixed z-30  bg-gray-100 text-blue-700 h-14 sm:h-16 w-full shadow-md">
@@ -24,59 +38,50 @@
             <a href="#">Smart gym Admin</a>
         </div>
         <!--humbarger-->
-        <div>
-            <i class="ri-menu-3-line text-orange-400 text-3xl cursor-pointer"></i>
+        <div  class="cursor-pointer">
+            <i id="humbarger" class=" w-full ri-menu-3-line text-orange-400 text-3xl"></i>
         </div>
     </div>
    </nav>
 <!--sidebar-->
-<div class="fixed z-40 h-[calc(100vh-3.5rem)] w-full sm:w-64 overflow-y-auto  bg-gray-100 top-14 sm:top-16 text-center ">
+<div id="humbargerMenu" class="fixed z-40 h-[calc(100vh-3.5rem)] w-full sm:w-64 -left-full sm:-left-64 overflow-y-auto  bg-gray-100 top-14 sm:top-16 text-center trasnsition-all duration-500 ease-in-out">
     <ul class="flex flex-col gap-2 ">
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="admin.php">Dashboard</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="members.php">Members</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Members</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="subscriptionTarifs.php">Subscriptions/Plans</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="payments.php">Payments</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Payments</a></li>
+        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="blacklist.php">Blacklist</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="trainerList.php">Trainers</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Attendance</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="blacklist.php">Blacklist</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Reports</a></li>
         <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Settings</a></li>
-        <li class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Logout</a></li>
+        <li id="adminlogout" class="text-orange-400 text-lg hover:bg-gray-200 hover:text-orange-600 px-3 py-2 cursor-pointer"><a href="#">Logout</a></li>
     </ul>
 </div>
 <!--main container-->
+<input id="adminCsrfToken" value="<?php echo $_SESSION['csrf_token'];?>" hidden>
 <div class="flex flex-col gap-4 pt-20 sm:pt-20  mx-4 pb-6">
     
     <!--recent member list-->
     <div class="w-full mx-auto pt-0">
         <div class="flex justify-between">
             <h2 class=" text-gray-600 font-bold w-full text-center">Attendance List</h2>
-            <i class="ri-add-fill text-orange-400 text-2xl font-bold transform transition hover:scale-105 hover:-translate-y-1 cursor-pointer hover:text-orange-600"></i>
+            <i id="addTrainer" class="ri-add-fill text-orange-400 text-2xl font-bold transform transition hover:scale-105 hover:-translate-y-1 cursor-pointer hover:text-orange-600"></i>
         </div>
         <div class="w-full overflow-auto   rounded-lg shadow-xl ">
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th class="bg-gray-100 p-2 text-gray-500">No.</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Member No.</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Fist Name</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Last Name</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Tel</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Email</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Id No.</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Time</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap">No.</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap">Member No.</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap">email</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap">tel</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 whitespace-nowrap">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">1</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">369</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">John</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">Doe</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">0717109687</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">@gmail.com</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900">3585579</td>
-                        <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">225/08/25 10:30:09</td>
+                        <td colspan="9" class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap">to be updated</td>
                     </tr>
                 </tbody>
             </table>
@@ -84,98 +89,117 @@
     </div>
 </div>
 <!--blacklist pupup form-->
-<div class="fixed z-40 inset-0 bg-black/50   hidden justify-center">
+<div id="blacklistMemberpopup" class="fixed z-40 inset-0 bg-black/50 hidden  flex justify-center">
     <div class="bg-white rounded-xl w-full max-w-md mx-2 md:max-w-lg h-fit mt-20 px-4 py-2">
         <div class="w-full flex justify-end">
-            <i class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+            <i id="blacklisttrainercross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
         <h2 class="mb-2 font-semibold text-center text-2xl">Add to blacklist</h2>
         <div class="space-y-2">
-            <div class="flex flex-col w-full gap-4">
-                <label for="">Trainer number</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+            <div class="flex flex-col w-full gap-4 text-center text-red-500 font-bold">
+                <p>Are sure you want to blacklist the memeber:</p>
+                
             </div>
             <div class="flex flex-col w-full gap-4">
-                <label for="">First name</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg " readonly>
-            </div>
-            <div class="flex flex-col w-full gap-4">
-                <label for="">Last Name</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+                <label for="">Member number</label>
+                <input id="blacklistMemberId" type="number" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">Email</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+                <input id="blacklistmemberEmail" type="email" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
             </div>
+            <div class="flex flex-col w-full gap-4">
+                <label for="">Tel</label>
+                <input id="blacklistMemberTel" type="number" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+            </div>
+            
         </div>
         <div class="flex flex-col py-2">
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Add to blackList</button>
+            <button id="blacklistmemberBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Add to blackList</button>
         </div>
     </div>
 </div>
 <!--edit member detils pupup form-->
-<div class="fixed z-40 inset-0 bg-black/50   hidden justify-center">
-    <div class="bg-white rounded-xl w-full max-w-md mx-2 md:max-w-lg h-fit mt-20 px-4 py-2">
+<div id="edittrainerdata" class="fixed z-40 inset-0 bg-black/50   hidden flex justify-center items-start h-screen overflow-y-auto pt-2">
+    <div class="bg-white rounded-xl w-full max-w-md mx-2 md:max-w-lg h-fit  px-4 py-2">
         <div class="w-full flex justify-end">
-            <i class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+            <i id="editTrainerdataCross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
-        <h2 class="mb-2 font-semibold text-center text-2xl">Add attendance</h2>
+        <h2 class="mb-2 font-semibold text-center text-2xl">Edit Details</h2>
         <div class="space-y-2">
             <div class="flex flex-col w-full gap-4">
-                <label for="">Trainer number</label>
-                <select name="" id="">
-                    <option value="--select--" default>--select--</option>
-                    <option value="--select--" >34567</option>
-                    <option value="--select--" >4573</option>
-                </select>
+                <label for="">Member number</label>
+                <input id="edittrainerId" type="number" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">First name</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg " >
+                <input id="edittrainerFname" type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg " >
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">Last Name</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" >
+                <input id="edittrainerLname" type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" >
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">Email</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" >
+                <input id="edittrainerEmail" type="email" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" >
+            </div>
+            <div class="flex flex-col w-full gap-4">
+                <label for="">Tel</label>
+                <input id="editrainerTel" type="number" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" >
             </div>
         </div>
         <div class="flex flex-col py-2">
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Save Changes</button>
+            <button id="edittrainerdataBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Save Changes</button>
         </div>
     </div>
 </div>
 <!--add new member pupup form-->
-<div class="fixed z-40 inset-0 bg-black/50   hidden justify-center">
-    <div class="bg-white rounded-xl w-full max-w-md mx-2 md:max-w-lg h-fit mt-20 px-4 py-2">
+<div id="addNewtrainer" class="fixed z-40 inset-0 bg-black/50 flex hidden  overflow-y-auto mb-10 justify-center items-start h-screen">
+    <div class="bg-white rounded-xl w-full max-w-md mx-2 md:max-w-lg h-fit  px-4 py-2 mt-2 mb-6 ">
         <div class="w-full flex justify-end">
-            <i class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+            <i id="edittrainerdataCross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
-        <h2 class="mb-2 font-semibold text-center text-2xl">Add New Trainer</h2>
+        <h2 class="mb-2 font-semibold text-center text-lg">Add New Trainer</h2>
         <div class="space-y-2">
-            <div class="flex flex-col w-full gap-4">
-                <label for="">Trainer number</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+            <div class="flex flex-col w-full gap-4 ">
+                <label for="">Level</label>
+                <select name="" id="trainersOption" class="border-2 text-md">
+                    <option value="default" default>--select--</option>
+                    <option value="Gym Instructor">Gym Instructor</option>
+                    <option value="Personal Trainer">Personal Trainer</option>
+                    <option value="Specialist Trainer">Specialist Trainer</option>
+                    <option value="Advanced/Clinical Trainer">Advanced/Clinical Trainer</option>
+                </select>
+                <p id="trainerOptionError" class=" text-red-500 font-semibold"></p>
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">First name</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg " readonly>
+                <input id="trainerFname" type="text" placeholder="Your first name" class="border-2 outline-none px-2 py-1 rounded-lg " >
+                <p id="trainerFnameError" class=" text-red-500 font-semibold"></p>
             </div>
             <div class="flex flex-col w-full gap-4">
                 <label for="">Last Name</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+                <input id="trainerLname" type="text" placeholder="Your last name" class="border-2 outline-none px-2 py-1 rounded-lg" >
+                <p id="trainerLnameError" class=" text-red-500 font-semibold"></p>
             </div>
+            
             <div class="flex flex-col w-full gap-4">
                 <label for="">Email</label>
-                <input type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+                <input id="trainerEmail" type="email" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" >
+                <p id="trainerEmailError" class=" text-red-500 font-semibold"></p>
+            </div>
+            <div class="flex flex-col w-full gap-4">
+                <label for="">Tel</label>
+                <input id="trainerTel" type="number" placeholder="Your tel" class="border-2 outline-none px-2 py-1 rounded-lg" >
+                <p id="trainerTelError" class=" text-red-500 font-semibold"></p>
             </div>
         </div>
         <div class="flex flex-col py-2">
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Add New Trainer</button>
+            <button id="addNewtrainerBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Add New Trainer</button>
         </div>
     </div>
 </div>
 </body>
+<script src="main.js"></script>
+<script src=""></script>
 </html>

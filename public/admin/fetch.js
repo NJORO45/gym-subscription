@@ -96,6 +96,13 @@ async function recentMembersData(tbody,adminCsrfToken) {
                 }).join("");
                 console.log(mapedData);
                 tbody.innerHTML=mapedData;
+                }else{
+                    tbody.innerHTML= `
+                        <tr>
+                            <td class="bg-gray-50 p-2 text-sm text-gray-900 whitespace-nowrap text-center">No new members</td>
+                            
+                        </tr>
+                        `;
                 }
             }
         }catch(jsonErr){
