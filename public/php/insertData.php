@@ -51,6 +51,37 @@ if($stmt->execute()){
     echo json_encode(["success" => false, "message" => "Database error"]);
 }
 }
+//admin login 
+if(isset($data['adminloginStatus'])&& $data['adminloginStatus']==true){
+$email = sanitize($data['adminEmail']);
+$password = sanitize($data['adminPassword']);
+$stmt = $con->prepare("SELECT unid, email, password_hash, accountStatus FROM administators WHERE `email` = ? LIMIT 1");
+$stmt->bind_param("s",$email);
+if($stmt->execute()){
+    $results = $stmt->get_result();
+    $user=$results->fetch_assoc();
+    if(!$user){
+        echo json_encode(["success" => false, "message" => "Email not found"]);
+        exit;
+    }else{
+        if($user['accountStatus']!=="active"){
+         echo json_encode(["success" => false, "message" => "The account has been deactivated"]);
+        }else{
+            //if($user && password_verify($password,$user['password_hash'])){
+            if($password===$user['password_hash']){
+            //login success
+            session_regenerate_id(true); // prevent session fixation
+            $_SESSION['admin_user_id'] = $user['unid'];
+            echo json_encode(["success" => true, "message" => "Login successful"]);
+            }else{
+                echo json_encode(["success" => false, "message" => "Invalid email or password"]);
+            }
+        }
+    }
+}else{
+    echo json_encode(["success" => false, "message" => "Database error"]);
+}
+}
 
 if(isset($data['signupStatus'])&& $data['signupStatus']==true){
 $Fname = sanitize($data['Fname']);

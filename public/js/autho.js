@@ -91,12 +91,118 @@ addEventListener("DOMContentLoaded",()=>{
     let passwordStatus = false;
     const signupBtn= document.querySelector("#signupBtn");
     const loginBtn= document.querySelector("#loginBtn");
+    //admin adminLogin
+    const adminLoginBtn= document.querySelector("#adminLoginBtn");
+    const adminCsrttoken= document.querySelector("#adminCsrttoken");
+    const adminEmail= document.querySelector("#adminEmail");
+    const adminPassword= document.querySelector("#adminPassword");
+    const adminEmailError= document.querySelector("#adminEmailError");
+    const adminPassError= document.querySelector("#adminPassError");
     let emailStatus = false;
+    let admineEmailStatus = false;
     console.log(signupcsrtToken.value);
     userLogin.addEventListener("click",()=>{
         loginPopup.classList.remove("hidden");
         loginPopup.classList.add("flex");
     });
+    adminEmail.addEventListener("blur",()=>{
+        const email = adminEmail.value;
+        if(!isValidEmail(email)){
+            adminEmailError.classList.remove("hidden");
+            adminEmailError.textContent = 'Please enter a valid email';
+            admineEmailStatus=false;
+        }else{
+            adminEmailError.classList.add("hidden");
+            adminEmailError.textContent = ' ';
+            admineEmailStatus=true;
+        }
+    });
+    adminLoginBtn.addEventListener("click",()=>{
+        console.log("admin click")
+        const adminCsrt = adminCsrttoken.value;
+        if(admineEmailStatus && adminPassword.value!=''){
+            console.log("loginclicked pased");
+            async function loginFunction() {
+                const postData ={
+                    adminloginStatus:true,
+                    adminEmail:sanitize(adminEmail.value),
+                    adminPassword:sanitize(adminPassword.value),
+                    csrtfToken:sanitize(adminCsrt)
+                };
+             const response = await fetch('php/insertData.php',{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(postData)
+             });
+             const text = await response.text();
+             console.log(text);
+             try{
+                const result = JSON.parse(text);
+               // console.log(result);
+                if(result.success){
+                    //login success
+                    loginStatusFunction();
+                    p.textContent = result.message;
+                    alertMessage.classList.remove("hidden");
+                    alertMessage.classList.add("flex","animate-slide-down");
+                    setTimeout(() => {
+                        alertMessage.classList.remove("animate-slide-down");
+                        alertMessage.classList.add("animate-slide-up");
+                    }, 2000);
+                    //close modal and clear content
+                    setTimeout(()=>{
+                        alertMessage.classList.add("hidden");
+                        alertMessage.classList.remove("flex");
+                        loginEmail.value="";
+                        loginPassword.value="";
+                        loginBtn.disabled=false;
+                        alertMessage.classList.remove("animate-slide-down","animate-slide-up");
+                        loginPopup.classList.add("hidden");
+                        loginPopup.classList.remove("flex");
+                    },2400);
+                    setTimeout(()=>{
+                        window.location.href="admin/admin.php";
+                    },2500);
+                }else{
+                     p.textContent = result.message;
+                    alertMessage.classList.remove("hidden");
+                    alertMessage.classList.add("flex");
+                    loginBtn.disabled=false;
+                    alertMessage.classList.add("animate-slide-down");
+                    setTimeout(() => {
+                        alertMessage.classList.remove("animate-slide-down");
+                        alertMessage.classList.add("animate-slide-up");
+                    }, 2000);
+                    setTimeout(() => {
+                        alertMessage.classList.add("hidden","animate-slide-down");
+                        alertMessage.classList.remove("flex","animate-slide-up");
+                        // loginPopup.classList.add("hidden");
+                        // loginPopup.classList.remove("flex");
+                    }, 2400);
+                }
+             }
+             catch(jsonErr){
+                console.log("response error:" + jsonErr);
+             }
+          }
+          loginFunction();
+        }else{
+            loginBtn.disabled=false;
+            alertMessage.classList.remove("hidden");
+            alertMessage.classList.add("flex","animate-slide-down");
+            p.textContent="Fill the form to login"
+            setTimeout(() => {
+                alertMessage.classList.remove("animate-slide-down");
+                alertMessage.classList.add("animate-slide-up");
+            }, 2000);
+            setTimeout(() => {
+                 alertMessage.classList.add("hidden","animate-slide-down");
+                alertMessage.classList.remove("flex","animate-slide-up");
+                
+            }, 2400);
+        }
+    });
+    //login
     loginEmail.addEventListener("blur",()=>{
         const email = loginEmail.value;
         if(!isValidEmail(email)){

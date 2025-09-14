@@ -62,18 +62,32 @@ if(isset($data['recentMembersData']) && $data['recentMembersData']){
         echo json_encode(["success"=>false,"active_members"=>"erroe"]);
     }
 }
-if(isset($data['tariffData']) && $data['tariffData']){
-    $stmt = $con->prepare("SELECT * FROM plans");
+if(isset($data['tariffData']) && $data['tariffData']){ //.feature_text
+    $stmt = $con->prepare("SELECT 
+            p.unid, 
+            p.name, 
+            p.duration_value, 
+            p.duration_type, 
+            p.tariff, 
+            p.discount,
+            GROUP_CONCAT(f.feature_text SEPARATOR '||') AS features
+            FROM plans p LEFT JOIN plan_features f ON f.plan_id = p.unid GROUP BY p.id asc");
     $arrayData=array();
     if($stmt->execute()){
         $results = $stmt->get_result();
        while($data = $results->fetch_assoc()){
+         // convert features string → array
+            if (!empty($data['features'])) {
+                $data['features'] = explode("||", $data['features']);
+            } else {
+                $data['features'] = [];
+            }
         $arrayData[]=$data;
         
        }
        echo json_encode(["success"=>true,"tariffs"=>$arrayData]);
     }else{
-        echo json_encode(["success"=>false,"active_members"=>"erroe"]);
+        echo json_encode(["success"=>false,"tarrifs"=>"erroe"]);
     }
 }
 
@@ -86,6 +100,8 @@ $discountValue = sanitize($data['discountValue']);
 $unid = random_num(5);
 $stmt = $con->prepare("SELECT * FROM plans WHERE `name` = ? LIMIT 1");
 $stmt->bind_param("s",$planeName);
+$featureErrors =array();
+$insertedFeatures =array();
 if($stmt->execute()){
     $results = $stmt->get_result();
     $user=$results->fetch_assoc();
@@ -94,7 +110,38 @@ if($stmt->execute()){
         $insertData = $con->prepare("INSERT INTO plans (`unid`, `name`, `duration_value`, `duration_type`, `tariff`,`discount`)VALUES(?,?,?,?,?,?)");
         $insertData->bind_param("ssssss",$unid,$planeName,$durationValue,$DurationOption,$amount,$discountValue);
         if($insertData->execute()){
-            echo json_encode(["success" => true, "message" => "plan added succesfully"]); 
+            if (!empty($data['features']) && is_array($data['features'])) {
+                $featureStmt = $con->prepare("INSERT INTO plan_features (`plan_id`, `feature_text`) VALUES (?, ?)");
+               
+                if (!$featureStmt) {
+                    echo "Prepare failed: " . $con->error;
+                    exit;
+                }
+
+                foreach ($data['features'] as $feature) {
+                    if (trim($feature) !== "") {
+                        $cleanFeature = htmlspecialchars(trim($feature), ENT_QUOTES, 'UTF-8');
+                        $featureStmt->bind_param("ss", $unid, $cleanFeature);
+
+                        if (!$featureStmt->execute()) {
+                            $featureErrors[] = $featureStmt->error;
+                        } else {
+                            $insertedFeatures[] = $cleanFeature;
+                        }
+                    }
+                }
+            }else{
+                 
+                //echo json_encode(["success" => true, "message" => "feature arrays not okay","data"=>$features]); 
+            }
+            echo json_encode([
+                        "success" => true,
+                        "message" => empty($featureErrors) ? "plan added succesfully" : "plan added with some feature errors",
+                        "data" => $insertedFeatures,
+                        "errors" => $featureErrors
+                    ]);
+
+
         }else{
             echo json_encode(["success" => false, "message" => "error accured when adding plan"]); 
         }
@@ -114,6 +161,9 @@ $amount = sanitize($data['editamount']);
 $durationValue = sanitize($data['editdurationValue']);
 $discountValue = sanitize($data['editdiscountValue']);
 $unid = sanitize($data['unid']);
+$featureErrors =array();
+$insertedFeatures =array();
+$deletionFeatures ='';
 $stmt = $con->prepare("SELECT * FROM plans WHERE `unid` = ? LIMIT 1");
 $stmt->bind_param("s",$unid);
 if($stmt->execute()){
@@ -128,7 +178,51 @@ if($stmt->execute()){
         $insertData = $con->prepare("UPDATE `plans` SET `name`=?,`duration_value`=?,`duration_type`=?,`tariff`=?,`discount`=? WHERE unid =?");
         $insertData->bind_param("ssssss",$planeName,$durationValue,$DurationOption,$amount,$discountValue,$unid);
         if($insertData->execute()){
-            echo json_encode(["success" => true, "message" => "plan updated succesfully"]); 
+            //delete all from plan_description
+            $deletePlanDeescription =$con->prepare("DELETE FROM `plan_features` WHERE plan_id= ?");
+            $deletePlanDeescription->bind_param("s",$unid);
+            if($deletePlanDeescription->execute()){
+                 //then add new description
+                if (!empty($data['features']) && is_array($data['features'])) {
+                    $featureStmt = $con->prepare("INSERT INTO plan_features (`plan_id`, `feature_text`) VALUES (?, ?)");
+                
+                    if (!$featureStmt) {
+                        echo "Prepare failed: " . $con->error;
+                        exit;
+                    }
+
+                    foreach ($data['features'] as $feature) {
+                        if (trim($feature) !== "") {
+                            $cleanFeature = htmlspecialchars(trim($feature), ENT_QUOTES, 'UTF-8');
+                            $featureStmt->bind_param("ss", $unid, $cleanFeature);
+
+                            if (!$featureStmt->execute()) {
+                                $featureErrors[] = $featureStmt->error;
+                            } else {
+                                $insertedFeatures[] = $cleanFeature;
+                            }
+                        }
+                    }
+                }else{
+                    
+                    //echo json_encode(["success" => true, "message" => "feature arrays not okay","data"=>$features]); 
+                }
+            }else{
+                $deletionFeatures="error deleting old description";
+                $featureErrors[]=$deletionFeatures;
+            }
+           
+            echo json_encode([
+                        "success" => true,
+                        "message" => empty($featureErrors) ? "plan added succesfully" : "plan added with some feature errors",
+                        "data" => $insertedFeatures,
+                        "errors" => $featureErrors,
+
+                    ]);
+
+
+
+
         }else{
             echo json_encode(["success" => false, "message" => "error accured when updating plan"]); 
         }
@@ -350,5 +444,39 @@ if($stmt->execute()){
 }else{
     echo json_encode(["success" => false, "message" => "Database error"]);
 }
+}
+if(isset($data['deleteplanStatus'])&& $data['deleteplanStatus']==true){
+$deleteplanunid = sanitize($data['deleteplanunid']);
+$featureErrors =array();
+$insertedFeatures =array();
+$deletionFeatures ='';
+$stmt = $con->prepare("DELETE FROM `plans` WHERE unid= ?");
+$stmt->bind_param("s",$deleteplanunid);
+if($stmt->execute()){
+    $deletePlanDeescription =$con->prepare("DELETE FROM `plan_features` WHERE plan_id= ?");
+        $deletePlanDeescription->bind_param("s",$deleteplanunid);
+        if($deletePlanDeescription->execute()){
+                echo json_encode([
+                    "success" => true,
+                    "message" =>"plan removed succesfully" ,
+                    "data" => $insertedFeatures,
+                    "errors" => $featureErrors,
+
+                ]);
+        }else{
+            echo json_encode([
+                    "success" => false,
+                    "message" => "plan added with some feature errors",
+                    "data" => $insertedFeatures,
+                    "errors" => $featureErrors,
+
+                ]);
+        }
+           
+        
+}else{
+    echo json_encode(["success" => false, "message" => "Database error"]);
+}
+
 }
 ?>

@@ -71,12 +71,13 @@ if (empty($_SESSION['csrf_token'])) {
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th class="bg-gray-100 p-2 text-gray-500">No.</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Plan</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Duration</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Tarrif</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Discount</th>
-                        <th class="bg-gray-100 p-2 text-gray-500">Action</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 text-left">No.</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 text-left">Plan</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 text-left">Duration</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 text-left">Tarrif</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 text-left">Discount Tarrif</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 text-left">Discount</th>
+                        <th class="bg-gray-100 p-2 text-gray-500 text-left">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -110,6 +111,27 @@ if (empty($_SESSION['csrf_token'])) {
                     <option value="month">Month</option>
                     <option value="year">Year</option>
                 </select>
+            </div>
+            <div class="flex flex-col w-full gap-2">
+                <label for="">Plan Features</label>
+
+                <!-- Container for feature inputs -->
+                <div id="featuresContainer" class="space-y-2">
+                    <input type="text" name="features[]" placeholder="Feature 1"
+                        class="border-2 outline-none px-2 py-1 rounded-lg w-full" id="Description0">
+                </div>
+
+                <!-- Button to add more features -->
+                <div class="w-full flex flex-row justify-center gap-2">
+                    <button type="button" id="addFeatureBtn"
+                        class="mt-2 bg-orange-400 text-white px-3 py-1 rounded-full hover:bg-orange-600">
+                     Add Feature
+                </button>
+                <button type="button" id="removeFeatureBtn"
+                        class="mt-2 bg-orange-400 text-white px-3 py-1 rounded-full hover:bg-orange-600">
+                     remove Feature
+                </button>
+                </div>
             </div>
             <div class="flex flex-col sm:flex-row justify-between w-full gap-4 pt-2 ">
                <div class="flex flex-col">
@@ -169,6 +191,25 @@ if (empty($_SESSION['csrf_token'])) {
                     <option value="year">Year</option>
                 </select>
             </div>
+            <div class="flex flex-col w-full gap-2">
+                <label for="">Plan Features</label>
+
+                <!-- Container for feature inputs -->
+                <div id="editfeaturesContainer" class="space-y-2">
+                </div>
+
+                <!-- Button to add more features -->
+                <div class="w-full flex flex-row justify-center gap-2">
+                    <button type="button" id="editaddFeatureBtn"
+                        class="mt-2 bg-orange-400 text-white px-3 py-1 rounded-full hover:bg-orange-600">
+                     Add Feature
+                </button>
+                <button type="button" id="editremoveFeatureBtn"
+                        class="mt-2 bg-orange-400 text-white px-3 py-1 rounded-full hover:bg-orange-600">
+                     remove Feature
+                </button>
+                </div>
+            </div>
             <div class="flex flex-col sm:flex-row justify-between w-full gap-4 pt-2 ">
                <div class="flex flex-col">
                  <label for="" class="pb-2">Discount value</label>
@@ -202,6 +243,37 @@ if (empty($_SESSION['csrf_token'])) {
         </div>
         <div class="flex flex-col py-2">
             <button id="editplanBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Edit & confirm</button>
+        </div>
+    </div>
+</div>
+<!--delete plan pupup form-->
+<div id="deleteplanpopup" class="fixed z-40 inset-0 bg-black/50 hidden  flex justify-center">
+    <div class="bg-white rounded-xl w-full max-w-md mx-2 md:max-w-lg h-fit mt-20 px-4 py-2">
+        <div class="w-full flex justify-end">
+            <i id="deletepopupcross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+        </div>
+        <h2 class="mb-2 font-semibold text-center text-2xl">Delete plan</h2>
+        <div class="space-y-2">
+            <div class="flex flex-col w-full gap-4 text-center text-red-500 font-bold">
+                <p>Are sure you want to remove the plan:</p>
+                
+            </div>
+            <div class="flex flex-col w-full gap-4">
+                <label for="">plan name</label>
+                <input id="planName" type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+            </div>
+            <div class="flex flex-col w-full gap-4">
+                <label for="">plan Duration</label>
+                <input id="planDuration" type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+            </div>
+            <div class="flex flex-col w-full gap-4">
+                <label for="">plan tariff</label>
+                <input id="planTarif" type="text" placeholder="your name" class="border-2 outline-none px-2 py-1 rounded-lg" readonly>
+            </div>
+            
+        </div>
+        <div class="flex flex-col py-2">
+            <button id="deleteplanBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Delete plan</button>
         </div>
     </div>
 </div>
