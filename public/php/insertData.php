@@ -19,7 +19,7 @@ include("functions.php");
 $data = json_decode(file_get_contents("php://input"), true);
 // CSRF check
 if (!$data || !isset($data['csrtfToken']) || $data['csrtfToken'] !== $_SESSION['csrf_token']) {
-    echo json_encode(["success" => false, "message" => !$data ? "Invalid JSON" : "CSRF validation failed"]);
+    echo json_encode(["success" => false, "message" => !$data ? "Invalid JSON" : "CSRF validation failed" . $_SESSION['csrf_token']]);
     exit;
 }
 if(isset($data['loginStatus'])&& $data['loginStatus']==true){

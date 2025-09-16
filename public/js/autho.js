@@ -216,7 +216,7 @@ addEventListener("DOMContentLoaded",()=>{
         }
     });
     loginBtn.addEventListener("click",()=>{
-        const signupToken = signupcsrtToken.value;
+        const loginToken = logincsrtfToken.value;
         if(emailStatus && loginPassword.value!=''){
             console.log("loginclicked pased");
             async function loginFunction() {
@@ -224,7 +224,7 @@ addEventListener("DOMContentLoaded",()=>{
                     loginStatus:true,
                     loginEmail:sanitize(loginEmail.value),
                     loginPassword:sanitize(loginPassword.value),
-                    csrtfToken:sanitize(signupToken)
+                    csrtfToken:sanitize(loginToken)
                 };
              const response = await fetch('php/insertData.php',{
                 method:"POST",
@@ -360,7 +360,7 @@ addEventListener("DOMContentLoaded",()=>{
     });
 
         signupBtn.addEventListener("click",(e)=>{
-            const signupToken = signupcsrtToken.value;
+            let signupToken = signupcsrtToken.value;
         if(FnameStatus && signupemailStatus && LnameStatus && telStatus && passwordStatus){
            signupBtn.disabled=true;
             async function signupFunction() {
@@ -371,7 +371,7 @@ addEventListener("DOMContentLoaded",()=>{
                     signupemail:sanitize(signupemail.value),
                     tel:sanitize(tel.value),
                     confirmPassword:sanitize(confirmPassword.value),
-                    csrtfToken:sanitize(signupToken.value)
+                    csrtfToken:sanitize(signupToken)
                 };
              const response = await fetch('php/insertData.php',{
                 method:"POST",
