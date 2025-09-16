@@ -13,6 +13,8 @@ header("Access-Control-Allow-Origin: *");
 //put all in one line
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; frame-ancestors 'self';");
 
+date_default_timezone_set("Africa/Nairobi");
+
 header('Content-Type:application/json');
 include("db_connect.php");
 include("functions.php");
@@ -181,5 +183,57 @@ if(isset($data['deactivateAccountStatus'])&& $data['deactivateAccountStatus']==t
         }else{
             echo json_encode(["success" => false, "message" => "error accured when deactivating Account"]); 
         }
+}
+
+if(isset($data['sabscribeStatus'])&& $data['sabscribeStatus']==true){
+$planUnid = sanitize($data['planUnid']);
+$planName = sanitize($data['planName']);
+$unid=$_SESSION['user_id'];
+$planLength = $con->prepare("SELECT duration_value,duration_type FROM plans WHERE unid = ?");
+$planLength->bind_param("s",$planUnid);
+$planLength->execute();
+$fetchPlan= $planLength->get_result();
+$planData =$fetchPlan->fetch_assoc();
+// $planData = $planData['duration_value'];
+
+//$expiryDate
+$planDuration=(int)$planData['duration_value'];
+$durationType=$planData['duration_type']; // e.g. "day", "month", "year"
+//start from todat
+$expiryDate = new DateTime();
+
+//add duration depending on type
+if($durationType == "day"){
+    $expiryDate->modify("+$planDuration days");
+}elseif ($durationType === "month") {
+    $expiryDate->modify("+$planDuration months");
+} elseif ($durationType === "year") {
+    $expiryDate->modify("+$planDuration years");
+}
+
+// // Format date to save in DB
+$expiryDateFormatted = $expiryDate->format("Y-m-d H:i:s");
+$stmt = $con->prepare("SELECT * FROM plansubscription WHERE `user_unid` = ? LIMIT 1");
+$stmt->bind_param("s",$unid);
+if($stmt->execute()){
+    $results = $stmt->get_result();
+    if($results->num_rows==0){
+        //no match found
+        //insert the data
+        $insertData = $con->prepare("INSERT INTO plansubscription (`user_unid`, `plan_unid`, `plan_name`, `expiryDate`)VALUES(?,?,?,?)");
+        $insertData->bind_param("ssss",$unid,$planUnid,$planName,$expiryDateFormatted);
+        if($insertData->execute()){
+            echo json_encode(["success" => true, "message" => "Subscribed to plan"]); 
+        }else{
+            echo json_encode(["success" => false, "message" => "error accured Subscribed to plan"]); 
+        }
+    }else{
+        //
+       echo json_encode(["success" => false, "message" => "Email already signing up"]); 
     }
+   
+}else{
+    echo json_encode(["success" => false, "message" => "Database error"]);
+}
+}
 ?>

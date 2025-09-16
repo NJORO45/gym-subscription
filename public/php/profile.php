@@ -96,14 +96,14 @@ if (isset($_SESSION['user_id'])) {
         </div>
         <div>
             <label for="" class="text-gray-900">💳 Subscription</label>
-            <p class="text-gray-600 text-sm">N/A</p>
+            <p id="subscriptionPlan" class="text-gray-600 text-sm">N/A</p>
 
         </div>
         <div>
             <label for="" class="text-gray-900">Subscription Status</label>
             <p class="space-y-2">
                 <p class="text-gray-600  text-sm ">Next payment Due</p>
-                <span class="text-gray-600  text-sm ">N/A</span>
+                <div id="planExpiryDate" class="text-gray-600  text-sm ">N/A</div>
             </div>
     </div>
     <div class="w-full flex mx-auto flex-col">

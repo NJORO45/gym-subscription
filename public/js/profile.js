@@ -43,6 +43,8 @@ addEventListener("DOMContentLoaded",async()=>{
     const tel = document.querySelector("#tel");
     const email = document.querySelector("#email");
     const alertMessage = document.querySelector("#alertMessage");
+    const subscriptionPlan = document.querySelector("#subscriptionPlan");
+    const planExpiryDate = document.querySelector("#planExpiryDate");
     const p = document.querySelector("p");
     let fnamestatus=false;
     let lnamestatus=false;
@@ -186,7 +188,36 @@ addEventListener("DOMContentLoaded",async()=>{
     }else{
         console.log("error accesing profile");
     }
-     
-      
+    // const csrtToken = plancsrtToken.value;
+    async function subscriptionSetion() {
+        try{
+            const response = await fetch('subscriptionstatus.php',{
+                method:"GET",
+                headers:{"Accept":"application/json"}
+            });
+            const text = await response.text();
+            console.log(text);
+            try{
+                const result= JSON.parse(text);
+                console.log(result)
+                console.log(result.plan_name)
+                if(result.hasPlan){
+                    subscriptionPlan.textContent = result.plan_name;
+                    planExpiryDate.textContent=result.expiryDate;
+                }else{
+                    subscriptionPlan.textContent = "no subscription";
+                    planExpiryDate.textContent="NA";
+                }
+                    
+            }catch(jsonErr){
+                console.log("server response:"+ jsonErr);
+            }
+        }catch(error){
+            console.log("anable to run function:"+ error);
+        }
+        
+    }
+    subscriptionSetion();
+
     
 });
