@@ -203,24 +203,27 @@
     <div class="justify-items-center">
         <p>Stay Updated</p>
         <div class="flex flex-col ">
-            <input type="email" placeholder="Your email" class="outline-none py-2 px-1 border-2 border-gray-200 my-2 rounded-md">
-            <button class="bg-orange-500 px-4 py-2 text-white hover:bg-orange-600 rounded-full">Subscribe</button>
+            <input id="SubscriptioncsrtfToken" class="csrtfToken" type="text" value="" hidden >
+            <input id="emailSubscription" type="email" placeholder="Your email" class="outline-none py-2 px-1 border-2 border-gray-200 my-2 rounded-md">
+            <p id="subscriptionError" class="text-xs font-bold text-red-400"></p>
+            <button id="emailSubscriptionBtn" class="bg-orange-500 px-4 py-2 text-white hover:bg-orange-600 rounded-full">Subscribe</button>
         </div>
-        <p class="mt-4 cursor-pointer text-blue-700">💡 Drop a suggestion anytime!</p>
+        <p id="suggestionOpener" class="mt-4 cursor-pointer text-blue-700">💡 Drop a suggestion anytime!</p>
     </div>
    </div>
 
 <!--suggestion box pupup form-->
-<div class="hidden fixed z-40 inset-0 bg-black/50   justify-center  h-full pb-2 overflow-y-auto">
+<div id="suggestionPopup" class="hidden fixed z-40 inset-0 bg-black/50 flex  justify-center  h-full pb-2 overflow-y-auto">
     <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-64 mt-20 px-4 py-2">
         <div class="w-full flex justify-end">
             <i id="cross" class="ri-close-large-line inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
         <h2 class="mb-2 font-semibold">💡 Suggestion Box</h2>
-        <div class="flex flex-col space-y-6">
-            <input class="csrtfToken" type="text" value="" hidden >
-            <textarea class="border rounded-lg p-2 outline-none resize-none" name="" id="" rows="4" placeholder="Write your suggestion here .."></textarea>
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white ">Submit</button>
+        <div class="flex h-auto flex-col space-y-2">
+            <input id="sugestioncsrtfToken" class="csrtfToken" type="text" value="" hidden >
+            <textarea id="suggestionText" class="border rounded-lg p-2 outline-none resize-none" name="" id="" rows="4" placeholder="Write your suggestion here .."></textarea>
+            <p id="sugestionError" class="text-xs font-bold text-red-400"></p>
+            <button id="suggestionBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white ">Submit</button>
         </div>
     </div>
 </div>
@@ -384,4 +387,5 @@
 <script src="js/plancontainer.js"></script>
 <script src="js/autho.js"></script>
 <script src="js/logout.js"></script>
+<script src="js/subscription_sugestion.js"></script>
 </html>

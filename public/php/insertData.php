@@ -236,4 +236,44 @@ if($stmt->execute()){
     echo json_encode(["success" => false, "message" => "Database error"]);
 }
 }
+//suggestionTextStatus suggestionText
+if(isset($data['suggestionTextStatus'])&& $data['suggestionTextStatus']==true){
+    $suggestionText = sanitize($data['suggestionText']);
+    $unid = random_num(5);
+    $insertData = $con->prepare("INSERT INTO suggestion_box (`unid`, `suggestion`)VALUES(?,?)");
+    $insertData->bind_param("ss",$unid,$suggestionText);
+    if($insertData->execute()){
+        $_SESSION['user_id'] = $unid;
+        echo json_encode(["success" => true, "message" => "suggestion added successfull"]); 
+    }else{
+        echo json_encode(["success" => false, "message" => "error accured when adding suggestion"]); 
+    }
+}
+
+if(isset($data['emailSubscriptionStatus'])&& $data['emailSubscriptionStatus']==true){
+$emailSubscription = sanitize($data['emailSubscription']);
+$unid = random_num(5);
+$stmt = $con->prepare("SELECT * FROM emailsubscriptions WHERE `email` = ? LIMIT 1");
+$stmt->bind_param("s",$emailSubscription);
+if($stmt->execute()){
+    $results = $stmt->get_result();
+    if($results->num_rows==0){
+        //no match found
+        //insert the data
+        $insertData = $con->prepare("INSERT INTO emailsubscriptions (`unid`, `email`)VALUES(?,?)");
+        $insertData->bind_param("ss",$unid,$emailSubscription);
+        if($insertData->execute()){
+            $_SESSION['user_id'] = $unid;
+            echo json_encode(["success" => true, "message" => "subscription added successfull"]); 
+        }else{
+            echo json_encode(["success" => false, "message" => "error accured when adding subscription"]); 
+        }
+    }else{
+       echo json_encode(["success" => false, "message" => "Already Subscribed"]); 
+    }
+   
+}else{
+    echo json_encode(["success" => false, "message" => "Database error"]);
+}
+}
 ?>
