@@ -5,7 +5,6 @@ async function fetchProfile() {
             header:{"Accept":"application/json"}
         });
         const text= await response.text();
-        console.log(text);
         try{
             const results = JSON.parse(text);
            return results;
@@ -51,7 +50,6 @@ addEventListener("DOMContentLoaded",async()=>{
     let emailstatus=false;
     let telstatus=false;
     const data = await fetchProfile();
-    console.log(data);
     Fname.addEventListener("blur",()=>{
         if(Fname.value.trim()===""){
             fnamestatus=false;
@@ -196,11 +194,8 @@ addEventListener("DOMContentLoaded",async()=>{
                 headers:{"Accept":"application/json"}
             });
             const text = await response.text();
-            console.log(text);
             try{
                 const result= JSON.parse(text);
-                console.log(result)
-                console.log(result.plan_name)
                 if(result.hasPlan){
                     subscriptionPlan.textContent = result.plan_name;
                     planExpiryDate.textContent=result.expiryDate;

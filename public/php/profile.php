@@ -112,84 +112,19 @@ if (isset($_SESSION['user_id'])) {
             <table class="w-full">
                 <thead>
                     <tr>
-                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky left-0 top-0 z-[25] ">Receipt no.</th>
+                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky left-0 top-0 z-[25] text-left">Receipt no.</th>
+                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky  top-0 z-20 text-left">Plan</th>
                         <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky  top-0 z-20">amount</th>
-                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky top-0 z-20">Date</th>
-                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky  top-0 z-20">Action</th>
+                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky  top-0 z-20 text-left">payment mode</th>
+                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky top-0 z-20 text-left">Date</th>
+                        <th class="text-sm bg-gray-200 text-gray-500 p-2 whitespace-nowrap sticky  top-0 z-20 text-left">Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    
                     <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2 ">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
-                    </tr>
-                    <tr class="space-x-2">
-                        <td class="p-2 whitespace-nowrap sticky left-0 z-10 bg-white">RTHOS87YU</td>
-                        <td class="p-2 whitespace-nowrap ">kes 2000</td>
-                        <td class="p-2 whitespace-nowrap ">2025/05/09</td>
-                        <td colspan="2">
-                            <button class="text-xs bg-orange-400 p-1 text-white rounded-full hover:bg-orange-600">Download</button>
-                        </td>
+                        <td class="p-2 whitespace-nowrap  bg-white">Fetching data</td>
+                        
                     </tr>
                 </tbody>
             </table>
@@ -406,5 +341,6 @@ if (isset($_SESSION['user_id'])) {
 <script src="../js/csrfmain.js"></script>
 <script src="../js/profile.js"></script> 
 <script src="../js/logoutmain.js"></script>
+<script src="../js/payment_history.js"></script>
 <script src="../js/subscription_sugestionmain.js"></script>
 </html>

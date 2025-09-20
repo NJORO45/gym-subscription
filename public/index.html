@@ -362,21 +362,21 @@
 <div id="userresetPassword" class="fixed z-40 inset-0 bg-black/50 hidden  justify-center  h-full pb-2 overflow-y-auto">
     <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg h-fit mt-20 px-4 py-2">
         <div class="w-full flex justify-end">
-            <i id="cross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
+            <i id="userResetcross" class="ri-close-large-line cursor-pointer inline-block text-xl text-orange-400 transform transition duration-200 hover:scale-125 hover:text-orange-600"></i>
         </div>
         <h2 class="mb-2 font-semibold text-center text-2xl">User</h2>
         <div class="space-y-2">
             <div class="flex flex-col w-full gap-4">
                 <label for="">Email</label>
-                <input type="text" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
-                <input class="csrtfToken" type="text" value="" hidden >
+                <input id="userResetEmail" type="text" placeholder="your email" class="border-2 outline-none px-2 py-1 rounded-lg">
+                <input id="userresetPasswordcsrtToken" class="csrtfToken" type="text" value="" hidden >
             </div>
             <div>
-                <p class="text-gray-500">A reset link will be sent to the above email if a match is found</p>
+                <p id="resetUserError" class=""></p>
             </div>
         </div>
         <div class="flex flex-col py-2">
-            <button class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Reset password</button>
+            <button id="resetUserBtn" class="bg-orange-400 px-2 py-2 rounded-full text-white hover:bg-orange-600">Reset password</button>
         </div>
     </div>
 </div>
@@ -388,4 +388,5 @@
 <script src="js/autho.js"></script>
 <script src="js/logout.js"></script>
 <script src="js/subscription_sugestion.js"></script>
+<script src="js/sendresetEmail.js"></script>
 </html>

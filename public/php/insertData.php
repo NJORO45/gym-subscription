@@ -132,34 +132,34 @@ $tel = sanitize($data['tel']);
         echo json_encode(["success" => false, "message" => "error accured when updating profile"]); 
     }
 }
-if(isset($data['passwordResetStatus'])&& $data['passwordResetStatus']==true){
-    $unid =  $_SESSION['user_id'];
-    $oldpassword= sanitize($data['oldpassword']);
-    $confirmnewpassword = sanitize($data['confirmnewpassword']);
+// if(isset($data['passwordResetStatus'])&& $data['passwordResetStatus']==true){
+//     $unid =  $_SESSION['user_id'];
+//     $oldpassword= sanitize($data['oldpassword']);
+//     $confirmnewpassword = sanitize($data['confirmnewpassword']);
    
-    $stmt = $con->prepare("SELECT * FROM users WHERE `unid` = ? LIMIT 1");
-    $stmt->bind_param("s",$unid);
-    if($stmt->execute()){
-        $results = $stmt->get_result();
-        $user=$results->fetch_assoc();
-        if($user && password_verify($oldpassword,$user['password_hash'])){
-            $hashedPassword = password_hash($confirmnewpassword,PASSWORD_DEFAULT);
-            $updatetData = $con->prepare("UPDATE `users` SET `password_hash`= ?
-            WHERE `unid`= ?");
-            $updatetData->bind_param("ss",$hashedPassword,$unid);
-            if($updatetData->execute()){
-                echo json_encode(["success" => true, "message" => "Password updated"]); 
-                //send email to user to tell them that the password was changed if it wosnt then to block the action
-            }else{
-                echo json_encode(["success" => false, "message" => "error accured when updating password"]); 
-            }
-        }else{
-            echo json_encode(["success" => false, "message" => "wrong old password"]);
-        }
-    }else{
-        echo json_encode(["success" => false, "message" => "Database error"]);
-    }
-}
+//     $stmt = $con->prepare("SELECT * FROM users WHERE `unid` = ? LIMIT 1");
+//     $stmt->bind_param("s",$unid);
+//     if($stmt->execute()){
+//         $results = $stmt->get_result();
+//         $user=$results->fetch_assoc();
+//         if($user && password_verify($oldpassword,$user['password_hash'])){
+//             $hashedPassword = password_hash($confirmnewpassword,PASSWORD_DEFAULT);
+//             $updatetData = $con->prepare("UPDATE `users` SET `password_hash`= ?
+//             WHERE `unid`= ?");
+//             $updatetData->bind_param("ss",$hashedPassword,$unid);
+//             if($updatetData->execute()){
+//                 echo json_encode(["success" => true, "message" => "Password updated"]); 
+//                 //send email to user to tell them that the password was changed if it wosnt then to block the action
+//             }else{
+//                 echo json_encode(["success" => false, "message" => "error accured when updating password"]); 
+//             }
+//         }else{
+//             echo json_encode(["success" => false, "message" => "wrong old password"]);
+//         }
+//     }else{
+//         echo json_encode(["success" => false, "message" => "Database error"]);
+//     }
+// }
 if(isset($data['preferenceStatus'])&& $data['preferenceStatus']==true){
     $unid =  $_SESSION['user_id'];
     $selectedValue = sanitize($data['selectedValue']);
@@ -275,5 +275,30 @@ if($stmt->execute()){
 }else{
     echo json_encode(["success" => false, "message" => "Database error"]);
 }
+}
+if(isset($data['passwordResetStatus'])&& $data['passwordResetStatus']==true){
+    if (!isset($_SESSION['reset_user_id'])) {
+        echo json_encode(["success" => false, "message" => "Unauthorized request"]);
+        exit;
+    }
+    $newPassword = $data['newPassword'];
+    $user =  $_SESSION['reset_user_id'];
+    $hashedPassword = password_hash($newPassword,PASSWORD_DEFAULT);
+
+    $insertData = $con->prepare("UPDATE users SET  password_hash = ?, reset_token=NULL, reset_expiry=NULL WHERE unid = ?");
+    $insertData->bind_param("ss",$hashedPassword,$user);
+    if($insertData->execute()){
+        echo json_encode(["success" => true, "message" => "Reset succesfull"]); 
+        // Unset all session variables
+        $_SESSION = [];
+
+        // Destroy the session
+        session_destroy();
+    }else{
+        echo json_encode(["success" => false, "message" => "error accured when reseting password"]); 
+    }
+    
+   
+
 }
 ?>
