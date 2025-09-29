@@ -1,0 +1,14 @@
+{
+    "name": "hp/gymsubscription",
+    "description": "gym subscription project",
+    "autoload": {
+        "psr-4": {
+            "Hp\\Gymsubscription\\": "src/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "dompdf/dompdf": "^3.1",
+        "phpmailer/phpmailer": "^6.10"
+    }
+}
