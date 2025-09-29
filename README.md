@@ -37,14 +37,31 @@ A PHP + MySQL + TAILWIND CSS +JS application for managing **gym subscriptions, p
 ### 🔑 Login Page
 ![Login Page](screenshots/login-page.png)
 
-### 📧 Password Reset Request
-![Password Reset Request](docs/screenshots/reset-request.png)
+### 📧 Password Reset form
+![Password Reset Request](screenshots/reset-password.PNG)
 
-### 🔒 Reset Password Form
-![Reset Password Form](docs/screenshots/reset-form.png)
+### 🔒 home page
+![Reset Password Form](screenshots/user-toppage.PNG)
 
-### 🧾 PDF Receipt Example
-![Receipt PDF](docs/screenshots/receipt-pdf.png)
+### 🔒 home about
+![Reset Password Form](screenshots/about-page.PNG)
+### 🔒 home contant
+![Reset Password Form](screenshots/contact-page.PNG)
+### 🔒 home subscription
+![Reset Password Form](screenshots/sudscriptions.PNG)
+### 🔒 home profile
+![Reset Password Form](screenshots/user-profile.PNG)
+### 🔒 home settings
+![Reset Password Form](screenshots/user-settings.PNG)
+
+### 🔒 admin side bar
+![Reset Password Form](screenshots/sidebar.PNG)
+### 🔒 adin tainer list
+![Reset Password Form](screenshots/trainers.PNG)
+### 🔒 admin member list
+![Reset Password Form](screenshots/member-list.PNG)
+### 🔒 admin black list
+![Reset Password Form](screenshots/blacklist.PNG)
 
 
 ---
