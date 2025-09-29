@@ -35,7 +35,7 @@ A PHP + MySQL + TAILWIND CSS +JS application for managing **gym subscriptions, p
 ## 📸 Screenshots
 
 ### 🔑 Login Page
-![Login Page](screenshots/login page.png)
+![Login Page](screenshots/login-page.png)
 
 ### 📧 Password Reset Request
 ![Password Reset Request](docs/screenshots/reset-request.png)
@@ -46,10 +46,6 @@ A PHP + MySQL + TAILWIND CSS +JS application for managing **gym subscriptions, p
 ### 🧾 PDF Receipt Example
 ![Receipt PDF](docs/screenshots/receipt-pdf.png)
 
-👉 *To add your own screenshots:*  
-1. Create a folder `docs/screenshots/` in your project root.  
-2. Save images as `.png` or `.jpg`.  
-3. Replace the placeholder links above with your actual file names.  
 
 ---
 
