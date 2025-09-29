@@ -35,7 +35,7 @@ A PHP + MySQL + TAILWIND CSS +JS application for managing **gym subscriptions, p
 ## 📸 Screenshots
 
 ### 🔑 Login Page
-![Login Page](screenshots/login-page.png)
+![Login Page](screenshots/login-page.PNG)
 
 ### 📧 Password Reset form
 ![Password Reset Request](screenshots/reset-password.PNG)
