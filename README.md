@@ -132,34 +132,13 @@ public
   Session-based authentication
   
   Token-based password reset system
-⚙️ Installation
-
-Clone the repository:
-
-  git clone https://github.com/YOUR_USERNAME/smart-gym.git
 
 
-Import the database:
-
-  Create a new MySQL database (e.g., smart_gym)
+📝 License
   
-  Import the SQL file provided in the db/ folder 
+  This project is licensed under the MIT License.
+  Feel free to use and extend it.
 
-Configure environment:
+👨‍💻 Author
 
-  Copy .env.example to .env
-  
-  Update database and SMTP credentials:
-  
-  DB_HOST=localhost
-  DB_USER=root
-  DB_PASSWORD=
-  DB_DATABASE=smart_gym
-  
-  SMTP_EMAIL=@gmail.com
-  SMTP_PASSWORD=your_app_password
-
-
-Run the project using XAMPP, WAMP, or any PHP server:
-
-  http://localhost/smart-gym/public
+  Developed by tallman4573
